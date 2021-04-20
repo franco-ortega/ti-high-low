@@ -182,6 +182,9 @@ const Scoreboard = () => {
       <HigherButton />
       <LowerButton />
       <DoubleButton />
+      <h4>
+        {doubleOrNothing ? 'You have selected Double or Nothing. Click it again to undo.' : 'Click Double or Nothing to take a change.'}
+      </h4>
       <h3>
         {gameOver ? `Game Over! Final score is ${score}` : 'Keep going!'}
       </h3>
