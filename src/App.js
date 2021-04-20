@@ -126,11 +126,19 @@ const Scoreboard = () => {
   };
 
    const ReshuffleDeck = () => {
-    return (
+    if(reshuffleDeck)
+     return (
       <button onClick={reshuffle}>
         Reshuffle Deck for 50 points
       </button>
     );
+
+    return (
+      <div>
+        If you have at least 50 points, you can spend 50 points to reshuffle the deck.
+      </div>
+    );
+
   };
 
 
@@ -215,9 +223,7 @@ const Scoreboard = () => {
         <input type="radio" name="direction" value="LOW" />Lower
         <button onClick={revealCard}>Reveal Card</button>
       </form>
-      <p>
-        {reshuffleDeck ? <ReshuffleDeck /> : 'If you have at least 50 points, you can spend 50 points to reshuffle the deck'}
-      </p>
+      <ReshuffleDeck />
       <h3>
         {gameOver ? `Game Over! Final score is ${score}` : 'Keep going!'}
       </h3>
