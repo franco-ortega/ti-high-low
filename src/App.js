@@ -65,13 +65,16 @@ function App() {
     setScore(score => score)
   }, [shuffleItAgain]);
 
-const Scoreboard = () => {
+
+  // SCOREBOARD COMPONENT
+  const Scoreboard = () => {
     return (
       <h2>Score: {score} points
       </h2>
     );
   };
   
+  // CURRENT CARD COMPONENT
   const CurrentCard = () => {
     const revealedCard = shuffledDeck[placeInDeck] || '';
 
@@ -102,14 +105,20 @@ const Scoreboard = () => {
     setScore(score + 1);
   }
 
-  //DOUBLE OR NOTHING LOGIC
+
   const chooseDouble = () => {
     setDoubleOrNothing(!doubleOrNothing)
   };
 
+  // DOUBLE BUTTON COMPONENT
   const DoubleButton = () => {
     return (
-      <button onClick={chooseDouble}>Double or Nothing</button>
+      <>
+        <button onClick={chooseDouble}>Double or Nothing</button>
+        <h4>
+          {doubleOrNothing ? 'You have selected Double or Nothing. Click it again to undo.' : 'Click Double or Nothing to take a chance.'}
+        </h4>
+      </>
     );
   };
 
@@ -125,7 +134,8 @@ const Scoreboard = () => {
     setPlaceInDeck(0);
   };
 
-   const ReshuffleDeck = () => {
+  // RESHUFFLE DECK COMPONENT
+  const ReshuffleDeck = () => {
     if(reshuffleDeck)
      return (
       <button onClick={reshuffle}>
@@ -202,6 +212,15 @@ const Scoreboard = () => {
   };
   
 
+  // GAME STATUS COMPONENT
+   const GameStatus = () => {
+    return (
+      <h3>
+        {gameOver ? `Game Over! Final score is ${score}` : 'Keep going!'}
+      </h3>
+    )
+  }
+  
   
   console.log(shuffledDeck);
   console.log(reshuffleDeck);
@@ -213,20 +232,14 @@ const Scoreboard = () => {
       <h1>High-Low Game</h1>
       <Scoreboard />
       <CurrentCard />
-      
       <DoubleButton />
-      <h4>
-        {doubleOrNothing ? 'You have selected Double or Nothing. Click it again to undo.' : 'Click Double or Nothing to take a chance.'}
-      </h4>
       <form onChange={chooseHigherOrLower}>
         <input type="radio" name="direction" value="HIGH" />Higher
         <input type="radio" name="direction" value="LOW" />Lower
         <button onClick={revealCard}>Reveal Card</button>
       </form>
       <ReshuffleDeck />
-      <h3>
-        {gameOver ? `Game Over! Final score is ${score}` : 'Keep going!'}
-      </h3>
+      <GameStatus />
     </div>
   );
 }
