@@ -78,7 +78,7 @@ function App() {
   const CurrentCard = () => {
     const revealedCard = shuffledDeck[placeInDeck] || '';
 
-    if(placeInDeck >= 51) 
+    if(placeInDeck > 51) 
     return (
       <div>You have revealed all the cards.
       <p style={{ backgroundColor: 'lightyellow', border: 'solid purple 2px', height: '100px', width: '100px', padding: '30px 10px', textAlign: 'center'}}></p>
@@ -103,7 +103,7 @@ function App() {
 
   const incrementScore = () => {
     setScore(score + 1);
-  }
+  };
 
 
   const chooseDouble = () => {
@@ -156,15 +156,15 @@ function App() {
   const chooseHigherOrLower = (e) => {
     console.log(e.target.value)
     setHighOrLow(e.target.value)
-  }
+  };
 
   const correctGuess = () => {
     if(doubleOrNothing) {
       setScore(score * 2);
     } else {
       incrementScore();
-    }
-  }
+    };
+  };
 
   const revealCard = (e) => {
     e.preventDefault()
@@ -218,8 +218,20 @@ function App() {
       <h3>
         {gameOver ? `Game Over! Final score is ${score}` : 'Keep going!'}
       </h3>
-    )
-  }
+    );
+  };
+
+  // GAME FORM COMPONENT
+  const GameForm = () => {
+    return (
+      <form onChange={chooseHigherOrLower}>
+        <input type="radio" name="direction" value="HIGH" />Higher
+        <input type="radio" name="direction" value="LOW" />Lower
+        <button onClick={revealCard}>Reveal Card</button>
+      </form>
+    );
+  };
+  
   
   
   console.log(shuffledDeck);
@@ -233,11 +245,7 @@ function App() {
       <Scoreboard />
       <CurrentCard />
       <DoubleButton />
-      <form onChange={chooseHigherOrLower}>
-        <input type="radio" name="direction" value="HIGH" />Higher
-        <input type="radio" name="direction" value="LOW" />Lower
-        <button onClick={revealCard}>Reveal Card</button>
-      </form>
+      <GameForm />
       <ReshuffleDeck />
       <GameStatus />
     </div>
