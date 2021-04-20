@@ -65,12 +65,16 @@ const Scoreboard = ({ score = 0 }) => {
   }
 
   
-  const CurrentCard = ({ card }) => {
+  const CurrentCard = () => {
+    let placeInDeck = 0
+    const revealedCard = shuffledDeck[placeInDeck] || ''
+
+    // console.log(revealedCard);
     return (
       <div>
         This is the current card. 
-        <p>
-          {card}
+        <p style={{ border: 'solid purple 2px', height: '100px', width: '100px', textAlign: 'center'}}>
+          {revealedCard.value} of {revealedCard.suit}
         </p>
         Will the next card be higher or lower?
         
