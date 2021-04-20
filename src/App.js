@@ -8,6 +8,30 @@ import './App.css';
 // The second half of this instruction feels unclear: "If the next card revealed is correctly guessed, you win 1 point, but can double or nothing with the next card." I'm going to assume it meant to say this: "If the next card revealed is correctly guessed, you win 1 point, OR YOU can BET double or nothing with the next card." Which I think means you can bet all your points, and if you guess correctly, your points are doubled, but if you guess wrong, you lose all your points and reset to 0.
 // Additional Items: 9) DOUBLE or NOTHING button. (radio button?)
 
+//ROADMAP
+//
+// -ends & Services
+// Frontend only; using React
+//
+// Objects
+// card
+// card deck: (A, 2, 3, 4, 5, 6, 7, 8, 9, J, Q, K) x 4: spade, club, heart, ???
+// HIGHER button
+// LOWER button
+// REVEAL NEXT CARD button
+// DOUBLE OR NOTHING button
+// Scoreboard: 0 pts (to start new game)
+//
+// Functions
+// shuffleCards
+// revealCard
+// compareCardToGuess
+// adjustScore (+1 pt if correct, else nothing) or (double score if correct, else reset score to 0)
+// incrementScore (add +1 point to current score)
+// doubleOrNothing (double score if correct, else reset score to 0)
+// resetGame (reset score to 0; reshuffle cards in deck)
+
+
 function App() {
   return (
     <div>
