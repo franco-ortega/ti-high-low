@@ -176,7 +176,7 @@ const Scoreboard = () => {
   const reshuffle = () => {
     setShuffleItAgain(!shuffleItAgain)
     setScore(score - 50);
-
+    setPlaceInDeck(0);
   }
 
    const ReshuffleDeck = () => {
