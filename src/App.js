@@ -78,6 +78,24 @@ const Scoreboard = ({ score = 0 }) => {
     )
   }
   
+  const HigherButton = () => {
+    return (
+      <button>Higher</button>
+    )
+  }
+  
+  const LowerButton = () => {
+    return (
+      <button>Lower</button>
+    )
+  }
+  
+  const DoubleButton = () => {
+    return (
+      <button>Double or Nothing</button>
+    )
+  }
+  
   
   
   return (
@@ -85,6 +103,9 @@ const Scoreboard = ({ score = 0 }) => {
       <h1>High-Low Game</h1>
       <Scoreboard />
       <CurrentCard />
+      <HigherButton />
+      <LowerButton />
+      <DoubleButton />
 
     </div>
   );
