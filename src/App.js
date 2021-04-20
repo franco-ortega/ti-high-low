@@ -73,7 +73,16 @@ const Scoreboard = () => {
   };
   
   const CurrentCard = () => {
-    const revealedCard = shuffledDeck[placeInDeck] || ''
+    const revealedCard = shuffledDeck[placeInDeck] || '';
+
+    if(placeInDeck >= 51) 
+    return (
+      <div>You have revealed all the cards.
+      <p style={{ backgroundColor: 'lightyellow', border: 'solid purple 2px', height: '100px', width: '100px', padding: '30px 10px', textAlign: 'center'}}></p>
+        Play again anytime.
+        </div>
+      );
+
     return (
       <div>
         This is the current card. 
@@ -131,6 +140,14 @@ const Scoreboard = () => {
     setHighOrLow(e.target.value)
   }
 
+  const correctGuess = () => {
+    if(doubleOrNothing) {
+      setScore(score * 2);
+    } else {
+      incrementScore();
+    }
+  }
+
   const revealCard = (e) => {
     e.preventDefault()
     console.log('reveal button clicked')
@@ -138,11 +155,7 @@ const Scoreboard = () => {
     if(highOrLow === 'HIGH') {
       if(placeInDeck < 51) {
         if(Number(shuffledDeck[placeInDeck].height) < Number(shuffledDeck[placeInDeck + 1].height)) {
-          if(doubleOrNothing) {
-            setScore(score * 2);
-          } else {
-            incrementScore();
-          }
+          correctGuess();
         } else {
           if(doubleOrNothing) {
             setScore(0);
@@ -154,11 +167,7 @@ const Scoreboard = () => {
     if(highOrLow === 'LOW') {
       if(placeInDeck < 51) {
         if(Number(shuffledDeck[placeInDeck].height) > Number(shuffledDeck[placeInDeck + 1].height)) {
-          if(doubleOrNothing) {
-            setScore(score * 2);
-          } else {
-            incrementScore();
-          }
+          correctGuess();
         } else {
           if(doubleOrNothing) {
             setScore(0);
