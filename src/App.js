@@ -37,9 +37,11 @@ function App() {
   const [shuffledDeck, setShuffledDeck] = useState([]);
   const [placeInDeck, setPlaceInDeck] = useState(0);
   const [score, setScore] = useState(0);
-  // const [higher, setHigher] = useState(false);
-  // const [lower, setLower] = useState(false);
   const [gameOver, setGameOver] = useState(false);
+  const [doubleOrNothing, setDoubleOrNothing] = useState(false);
+  const [reshuffleDeck, setReshuffleDeck] = useState(false);
+  const [shuffleItAgain, setShuffleItAgain] = useState(false);
+
   
   useEffect(() => {
     const currentDeck = []
@@ -57,13 +59,10 @@ function App() {
   
     shufffleCards();
     setShuffledDeck(currentDeck);
-    setScore(0)
-  }, []);
-
-  console.log(shuffledDeck);
+    setScore(score => score)
+  }, [shuffleItAgain]);
 
 const Scoreboard = () => {
-  console.log('Score:' + score)
     return (
       <h2>Score: {score} points
       </h2>
@@ -72,8 +71,6 @@ const Scoreboard = () => {
   
   const CurrentCard = () => {
     const revealedCard = shuffledDeck[placeInDeck] || ''
-
-    // console.log(revealedCard);
     return (
       <div>
         This is the current card. 
@@ -95,40 +92,63 @@ const Scoreboard = () => {
   }
 
   const chooseHigher = () => {
-    // setHigher(true);
     if(placeInDeck < 51) {
       if(Number(shuffledDeck[placeInDeck].height) < Number(shuffledDeck[placeInDeck + 1].height)) {
-        nextCard();
-        incrementScore();
+        if(doubleOrNothing) {
+          setScore(score * 2);
+        } else {
+          incrementScore();
+        }
       } else {
-        nextCard();
+        if(doubleOrNothing) {
+          setScore(0);
+        }
       };
     };
+
+    nextCard();
+
+    if(score >= 50) {
+      setReshuffleDeck(true); 
+    }
 
     if(placeInDeck + 1 === 51) {
       setGameOver(true);
     }
+
+    setDoubleOrNothing(false);
   };
 
   const chooseLower = () => {
-    // setLower(true);
-
     if(placeInDeck < 51) {
       if(Number(shuffledDeck[placeInDeck].height) > Number(shuffledDeck[placeInDeck + 1].height)) {
-        nextCard();
-        incrementScore();
+        if(doubleOrNothing) {
+          setScore(score * 2);
+        } else {
+          incrementScore();
+        }
       } else {
-        nextCard();
+        if(doubleOrNothing) {
+          setScore(0);
+        }
       };
     };
+
+    nextCard();
+
+    if(score >= 50) {
+      setReshuffleDeck(true); 
+    }
+
 
     if(placeInDeck + 1 === 51) {
       setGameOver(true);
     }
+
+    setDoubleOrNothing(false);
   };
 
   const HigherButton = () => {  
-    console.log(placeInDeck);
     return (
       <button onClick={chooseHigher}>Higher</button>
     );
@@ -138,27 +158,52 @@ const Scoreboard = () => {
   const LowerButton = () => {
     return (
       <button onClick={chooseLower}>Lower</button>
-    )
-  }
+    );
+  };
   
+
+  const chooseDouble = () => {
+    setDoubleOrNothing(!doubleOrNothing)
+
+  };
+
   const DoubleButton = () => {
     return (
-      <button>Double or Nothing</button>
+      <button onClick={chooseDouble}>Double or Nothing</button>
+    );
+  };
+
+  const reshuffle = () => {
+    setShuffleItAgain(!shuffleItAgain)
+    setScore(score - 50);
+
+  }
+
+   const ReshuffleDeck = () => {
+    return (
+      <button onClick={reshuffle}>
+        Reshuffle Deck for 50 points
+      </button>
     )
   }
   
+  console.log(shuffledDeck);
   
-  console.log('Place in deck: ' + placeInDeck)
-  // console.log(higher, lower)
-  console.log('Game Over: ' + gameOver)
   return (
     <div>
       <h1>High-Low Game</h1>
       <Scoreboard />
       <CurrentCard />
+      
+      <DoubleButton />
+      <h4>
+        {doubleOrNothing ? 'You have selected Double or Nothing. Click it again to undo.' : 'Click Double or Nothing to take a chance.'}
+      </h4>
       <HigherButton />
       <LowerButton />
-      <DoubleButton />
+      <p>
+        {reshuffleDeck ? <ReshuffleDeck /> : 'If you have at least 50 points, you can spend 50 points to reshuffle the deck'}
+      </p>
       <h3>
         {gameOver ? `Game Over! Final score is ${score}` : 'Keep going!'}
       </h3>
