@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import './App.css';
+import cardDeck from './cardDeck.json'
 
 //SCOPE
 // Items: 1) a deck of cards, 2) button to reveal next card, 3) score board that starts at 0, 4) message that displays when the game is over, 5) button that resets game, 6) buttons to guess whether the next card is higher or lower, 7) area to display the currently revealed card, 8) name of game
@@ -33,6 +34,28 @@ import './App.css';
 
 
 function App() {
+  const [shuffledDeck, setShuffledDeck] = useState(null);
+  
+  useEffect(() => {
+    const currentDeck = []
+
+    const shufffleCards = () => {
+      for(let i = 0; i < 52; i++) {
+        const card = cardDeck[(Math.floor(Math.random() * 52))];
+        if(!currentDeck.includes(card)) {
+          currentDeck.push(card);
+        } else {
+          i--;
+        };
+      };
+    };
+  
+    shufffleCards();
+    setShuffledDeck(currentDeck);
+  }, [])
+
+  console.log(shuffledDeck);
+  
   return (
     <div>
       <h1>Hello World</h1>
