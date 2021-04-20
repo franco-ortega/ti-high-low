@@ -52,9 +52,9 @@ function App() {
   
     shufffleCards();
     setShuffledDeck(currentDeck);
-  }, [])
+  }, []);
 
-  // console.log(shuffledDeck);
+  console.log(shuffledDeck);
 
 const Scoreboard = ({ score = 0 }) => {
   console.log('Score:' + score)
@@ -65,32 +65,41 @@ const Scoreboard = ({ score = 0 }) => {
   }
 
   
+  const [placeInDeck, setPlaceInDeck] = useState(0);
+  
   const CurrentCard = () => {
-    let placeInDeck = 0
     const revealedCard = shuffledDeck[placeInDeck] || ''
 
     // console.log(revealedCard);
     return (
       <div>
         This is the current card. 
-        <p style={{ border: 'solid purple 2px', height: '100px', width: '100px', textAlign: 'center'}}>
+        <p style={{ border: 'solid purple 2px', height: '100px', width: '100px', padding: '30px 10px', textAlign: 'center'}}>
           {revealedCard.value} of {revealedCard.suit}
         </p>
         Will the next card be higher or lower?
         
       </div>
-    )
-  }
+    );
+  };
   
+  const nextCard = () => {
+    setPlaceInDeck(placeInDeck + 1);
+  };
+
   const HigherButton = () => {
+  
+    
+    console.log(placeInDeck);
     return (
-      <button>Higher</button>
-    )
-  }
+      <button onClick={nextCard}>Higher</button>
+    );
+  };
+
   
   const LowerButton = () => {
     return (
-      <button>Lower</button>
+      <button onClick={nextCard}>Lower</button>
     )
   }
   
