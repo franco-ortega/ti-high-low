@@ -55,10 +55,20 @@ function App() {
   }, [])
 
   console.log(shuffledDeck);
+
+const Scoreboard = ({ score = 0 }) => {
+  console.log(score)
+    return (
+      <div>Score: {score} points
+      </div>
+    )
+  }
+  
   
   return (
     <div>
-      <h1>Hello World</h1>
+      <h1>High-Low Game</h1>
+      <Scoreboard />
 
     </div>
   );
