@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './App.css';
 import cardDeck from './cardDeck.json'
 
@@ -32,10 +32,44 @@ import cardDeck from './cardDeck.json'
 // doubleOrNothing (double score if correct, else reset score to 0)
 // resetGame (reset score to 0; reshuffle cards in deck)
 
-console.log(cardDeck);
+// console.log(cardDeck);
+
+
 
 
 function App() {
+
+  const currentDeck = []
+
+  const shufffleCards = () => {
+    
+    for(let i = 0; i < 52; i++) {
+      const card = cardDeck[(Math.floor(Math.random() * 52))];
+      if(!currentDeck.includes(card)) {
+        currentDeck.push(card);
+      } else {
+        i--;
+      };
+    };
+
+    console.log(currentDeck);
+
+
+  };
+
+
+  const [shuffledDeck, setShuffledDeck] = useState(null);
+  
+  useEffect(() => {
+    shufffleCards();
+    setShuffledDeck(currentDeck);
+  
+    
+   
+  }, [])
+
+  console.log(shuffledDeck);
+  
   return (
     <div>
       <h1>Hello World</h1>
