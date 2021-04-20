@@ -42,6 +42,9 @@ function App() {
   const [reshuffleDeck, setReshuffleDeck] = useState(false);
   const [shuffleItAgain, setShuffleItAgain] = useState(false);
 
+  // const [cardInView, setCardInView] = useState({});
+  const [highOrLow, setHighOrLow] = useState('');
+
   
   useEffect(() => {
     const currentDeck = []
@@ -74,11 +77,10 @@ const Scoreboard = () => {
     return (
       <div>
         This is the current card. 
-        <p style={{ border: 'solid purple 2px', height: '100px', width: '100px', padding: '30px 10px', textAlign: 'center'}}>
+        <p style={{ backgroundColor: 'lightyellow', border: 'solid purple 2px', height: '100px', width: '100px', padding: '30px 10px', textAlign: 'center'}}>
           {revealedCard.value} of {revealedCard.suit}
         </p>
         Will the next card be higher or lower?
-        
       </div>
     );
   };
@@ -91,89 +93,9 @@ const Scoreboard = () => {
     setScore(score + 1);
   }
 
-  const chooseHigher = () => {
-    if(placeInDeck < 51) {
-      if(Number(shuffledDeck[placeInDeck].height) < Number(shuffledDeck[placeInDeck + 1].height)) {
-        if(doubleOrNothing) {
-          setScore(score * 2);
-        } else {
-          incrementScore();
-        }
-      } else {
-        if(doubleOrNothing) {
-          setScore(0);
-        }
-      };
-    };
-
-    nextCard();
-
-    if(score >= 50) {
-      setReshuffleDeck(true); 
-    }
-
-    if(score < 50) {
-      setReshuffleDeck(false);
-    }
-
-
-    if(placeInDeck + 1 === 51) {
-      setGameOver(true);
-    }
-
-    setDoubleOrNothing(false);
-  };
-
-  const chooseLower = () => {
-    if(placeInDeck < 51) {
-      if(Number(shuffledDeck[placeInDeck].height) > Number(shuffledDeck[placeInDeck + 1].height)) {
-        if(doubleOrNothing) {
-          setScore(score * 2);
-        } else {
-          incrementScore();
-        }
-      } else {
-        if(doubleOrNothing) {
-          setScore(0);
-        }
-      };
-    };
-
-    nextCard();
-
-    if(score >= 50) {
-      setReshuffleDeck(true); 
-    }
-
-    if(score < 50) {
-      setReshuffleDeck(false);
-    }
-
-
-    if(placeInDeck + 1 === 51) {
-      setGameOver(true);
-    }
-
-    setDoubleOrNothing(false);
-  };
-
-  const HigherButton = () => {  
-    return (
-      <button onClick={chooseHigher}>Higher</button>
-    );
-  };
-
-  
-  const LowerButton = () => {
-    return (
-      <button onClick={chooseLower}>Lower</button>
-    );
-  };
-  
-
+  //DOUBLE OR NOTHING LOGIC
   const chooseDouble = () => {
     setDoubleOrNothing(!doubleOrNothing)
-
   };
 
   const DoubleButton = () => {
@@ -185,25 +107,89 @@ const Scoreboard = () => {
   // FIX RESHUFFLE
   // reset placeInDeck back to 0 when deck is reshuffled --DONE
   // don't allow reshuffle if score drops below 50 points --DONE
-  // have Reshuffle button appear as soon as score reached 50 points or more
+  // have Reshuffle button appear as soon as score reaches 50 points or more
   // don't change the current card until after the Higher/Lower button is clicked
 
   const reshuffle = () => {
     setShuffleItAgain(!shuffleItAgain)
     setScore(score - 50);
     setPlaceInDeck(0);
-  }
+  };
 
    const ReshuffleDeck = () => {
     return (
       <button onClick={reshuffle}>
         Reshuffle Deck for 50 points
       </button>
-    )
+    );
+  };
+
+
+
+  const chooseHigherOrLower = (e) => {
+    console.log(e.target.value)
+    setHighOrLow(e.target.value)
   }
+
+  const revealCard = (e) => {
+    e.preventDefault()
+    console.log('reveal button clicked')
+
+    if(highOrLow === 'HIGH') {
+      if(placeInDeck < 51) {
+        if(Number(shuffledDeck[placeInDeck].height) < Number(shuffledDeck[placeInDeck + 1].height)) {
+          if(doubleOrNothing) {
+            setScore(score * 2);
+          } else {
+            incrementScore();
+          }
+        } else {
+          if(doubleOrNothing) {
+            setScore(0);
+          };
+        };
+      };
+    };
+    
+    if(highOrLow === 'LOW') {
+      if(placeInDeck < 51) {
+        if(Number(shuffledDeck[placeInDeck].height) > Number(shuffledDeck[placeInDeck + 1].height)) {
+          if(doubleOrNothing) {
+            setScore(score * 2);
+          } else {
+            incrementScore();
+          }
+        } else {
+          if(doubleOrNothing) {
+            setScore(0);
+          };
+        };
+      };  
+    };
+
+    nextCard();
+    setDoubleOrNothing(false);
+
+    if(score >= 50) {
+      setReshuffleDeck(true); 
+    };
+
+    if(score < 50) {
+      setReshuffleDeck(false);
+    };
+
+    if(placeInDeck + 1 === 51) {
+      setGameOver(true);
+    };
+
+  };
+  
+
   
   console.log(shuffledDeck);
   console.log(reshuffleDeck);
+  // console.log(cardInView);
+  console.log(highOrLow);
   
   return (
     <div>
@@ -215,8 +201,11 @@ const Scoreboard = () => {
       <h4>
         {doubleOrNothing ? 'You have selected Double or Nothing. Click it again to undo.' : 'Click Double or Nothing to take a chance.'}
       </h4>
-      <HigherButton />
-      <LowerButton />
+      <form onChange={chooseHigherOrLower}>
+        <input type="radio" name="direction" value="HIGH" />Higher
+        <input type="radio" name="direction" value="LOW" />Lower
+        <button onClick={revealCard}>Reveal Card</button>
+      </form>
       <p>
         {reshuffleDeck ? <ReshuffleDeck /> : 'If you have at least 50 points, you can spend 50 points to reshuffle the deck'}
       </p>
