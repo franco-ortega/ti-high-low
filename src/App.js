@@ -35,6 +35,8 @@ import cardDeck from './cardDeck.json'
 
 function App() {
   const [shuffledDeck, setShuffledDeck] = useState([]);
+  const [placeInDeck, setPlaceInDeck] = useState(0);
+  const [score, setScore] = useState(0);
   
   useEffect(() => {
     const currentDeck = []
@@ -52,20 +54,21 @@ function App() {
   
     shufffleCards();
     setShuffledDeck(currentDeck);
+    setScore(0)
   }, []);
 
   console.log(shuffledDeck);
 
-const Scoreboard = ({ score = 0 }) => {
+const Scoreboard = () => {
   console.log('Score:' + score)
     return (
       <h2>Score: {score} points
       </h2>
-    )
-  }
+    );
+  };
 
   
-  const [placeInDeck, setPlaceInDeck] = useState(0);
+  
   
   const CurrentCard = () => {
     const revealedCard = shuffledDeck[placeInDeck] || ''
@@ -85,7 +88,12 @@ const Scoreboard = ({ score = 0 }) => {
   
   const nextCard = () => {
     setPlaceInDeck(placeInDeck + 1);
+    incrementScore();
   };
+
+  const incrementScore = () => {
+    setScore(score + 1);
+  }
 
   const HigherButton = () => {
   
