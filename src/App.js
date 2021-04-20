@@ -34,7 +34,7 @@ import cardDeck from './cardDeck.json'
 
 
 function App() {
-  const [shuffledDeck, setShuffledDeck] = useState(null);
+  const [shuffledDeck, setShuffledDeck] = useState([]);
   
   useEffect(() => {
     const currentDeck = []
@@ -54,10 +54,10 @@ function App() {
     setShuffledDeck(currentDeck);
   }, [])
 
-  console.log(shuffledDeck);
+  // console.log(shuffledDeck);
 
 const Scoreboard = ({ score = 0 }) => {
-  console.log(score)
+  console.log('Score:' + score)
     return (
       <h2>Score: {score} points
       </h2>

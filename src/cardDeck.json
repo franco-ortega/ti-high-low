@@ -22,7 +22,7 @@
     {
         "value": "5",
         "suit": "Club",
-        "height": "6"
+        "height": "5"
     },
     {
         "value": "6",
@@ -87,7 +87,7 @@
     {
         "value": "5",
         "suit": "Spade",
-        "height": "6"
+        "height": "5"
     },
     {
         "value": "6",
@@ -152,7 +152,7 @@
     {
         "value": "5",
         "suit": "Diamond",
-        "height": "6"
+        "height": "5"
     },
     {
         "value": "6",
@@ -217,7 +217,7 @@
     {
         "value": "5",
         "suit": "Heart",
-        "height": "6"
+        "height": "5"
     },
     {
         "value": "6",
