@@ -37,6 +37,8 @@ function App() {
   const [shuffledDeck, setShuffledDeck] = useState([]);
   const [placeInDeck, setPlaceInDeck] = useState(0);
   const [score, setScore] = useState(0);
+  const [higher, setHigher] = useState(false);
+  const [lower, setLower] = useState(false);
   
   useEffect(() => {
     const currentDeck = []
@@ -66,9 +68,6 @@ const Scoreboard = () => {
       </h2>
     );
   };
-
-  
-  
   
   const CurrentCard = () => {
     const revealedCard = shuffledDeck[placeInDeck] || ''
@@ -88,26 +87,38 @@ const Scoreboard = () => {
   
   const nextCard = () => {
     setPlaceInDeck(placeInDeck + 1);
-    incrementScore();
   };
 
   const incrementScore = () => {
     setScore(score + 1);
   }
 
-  const HigherButton = () => {
-  
-    
+  const chooseHigher = () => {
+    setHigher(true);
+
+    if(Number(shuffledDeck[placeInDeck].height) < Number(shuffledDeck[placeInDeck + 1].height)) {
+      nextCard();
+      incrementScore();
+    } else {
+      nextCard();
+    }
+  }
+
+  const chooseLower = () => {
+    setLower(true);
+  }
+
+  const HigherButton = () => {  
     console.log(placeInDeck);
     return (
-      <button onClick={nextCard}>Higher</button>
+      <button onClick={chooseHigher}>Higher</button>
     );
   };
 
   
   const LowerButton = () => {
     return (
-      <button onClick={nextCard}>Lower</button>
+      <button onClick={chooseLower}>Lower</button>
     )
   }
   
