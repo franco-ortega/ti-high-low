@@ -37,8 +37,6 @@ function App() {
   const [shuffledDeck, setShuffledDeck] = useState([]);
   const [placeInDeck, setPlaceInDeck] = useState(0);
   const [score, setScore] = useState(0);
-  // const [higher, setHigher] = useState(false);
-  // const [lower, setLower] = useState(false);
   const [gameOver, setGameOver] = useState(false);
   const [doubleOrNothing, setDoubleOrNothing] = useState(false);
 
@@ -62,10 +60,7 @@ function App() {
     setScore(0)
   }, []);
 
-  // console.log(shuffledDeck);
-
 const Scoreboard = () => {
-  console.log('Score:' + score)
     return (
       <h2>Score: {score} points
       </h2>
@@ -74,8 +69,6 @@ const Scoreboard = () => {
   
   const CurrentCard = () => {
     const revealedCard = shuffledDeck[placeInDeck] || ''
-
-    // console.log(revealedCard);
     return (
       <div>
         This is the current card. 
@@ -145,7 +138,6 @@ const Scoreboard = () => {
   };
 
   const HigherButton = () => {  
-    // console.log(placeInDeck);
     return (
       <button onClick={chooseHigher}>Higher</button>
     );
@@ -170,10 +162,6 @@ const Scoreboard = () => {
     );
   };
   
-  console.log(doubleOrNothing);
-  // console.log('Place in deck: ' + placeInDeck)
-  // console.log(higher, lower)
-  // console.log('Game Over: ' + gameOver)
   return (
     <div>
       <h1>High-Low Game</h1>
@@ -183,7 +171,7 @@ const Scoreboard = () => {
       <LowerButton />
       <DoubleButton />
       <h4>
-        {doubleOrNothing ? 'You have selected Double or Nothing. Click it again to undo.' : 'Click Double or Nothing to take a change.'}
+        {doubleOrNothing ? 'You have selected Double or Nothing. Click it again to undo.' : 'Click Double or Nothing to take a chance.'}
       </h4>
       <h3>
         {gameOver ? `Game Over! Final score is ${score}` : 'Keep going!'}
