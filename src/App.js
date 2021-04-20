@@ -173,6 +173,12 @@ const Scoreboard = () => {
     );
   };
 
+  // FIX RESHUFFLE
+  // reset placeInDeck back to 0 when deck is reshuffled
+  // don't allow reshuffle if score drops below 50 points
+  // have Reshuffle button appear as soon as score reached 50 points or more
+  // don't change the current card until after the Higher/Lower button is clicked
+
   const reshuffle = () => {
     setShuffleItAgain(!shuffleItAgain)
     setScore(score - 50);
