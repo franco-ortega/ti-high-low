@@ -59,16 +59,32 @@ function App() {
 const Scoreboard = ({ score = 0 }) => {
   console.log(score)
     return (
-      <div>Score: {score} points
+      <h2>Score: {score} points
+      </h2>
+    )
+  }
+
+  
+  const CurrentCard = ({ card }) => {
+    return (
+      <div>
+        This is the current card. 
+        <p>
+          {card}
+        </p>
+        Will the next card be higher or lower?
+        
       </div>
     )
   }
+  
   
   
   return (
     <div>
       <h1>High-Low Game</h1>
       <Scoreboard />
+      <CurrentCard />
 
     </div>
   );
