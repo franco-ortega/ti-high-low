@@ -112,6 +112,11 @@ const Scoreboard = () => {
       setReshuffleDeck(true); 
     }
 
+    if(score < 50) {
+      setReshuffleDeck(false);
+    }
+
+
     if(placeInDeck + 1 === 51) {
       setGameOver(true);
     }
@@ -138,6 +143,10 @@ const Scoreboard = () => {
 
     if(score >= 50) {
       setReshuffleDeck(true); 
+    }
+
+    if(score < 50) {
+      setReshuffleDeck(false);
     }
 
 
@@ -174,8 +183,8 @@ const Scoreboard = () => {
   };
 
   // FIX RESHUFFLE
-  // reset placeInDeck back to 0 when deck is reshuffled
-  // don't allow reshuffle if score drops below 50 points
+  // reset placeInDeck back to 0 when deck is reshuffled --DONE
+  // don't allow reshuffle if score drops below 50 points --DONE
   // have Reshuffle button appear as soon as score reached 50 points or more
   // don't change the current card until after the Higher/Lower button is clicked
 
@@ -194,6 +203,7 @@ const Scoreboard = () => {
   }
   
   console.log(shuffledDeck);
+  console.log(reshuffleDeck);
   
   return (
     <div>
