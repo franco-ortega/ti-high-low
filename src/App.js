@@ -34,7 +34,7 @@ import cardDeck from './cardDeck.json'
 
 
 function App() {
-  const [shuffledDeck, setShuffledDeck] = useState(null);
+  const [shuffledDeck, setShuffledDeck] = useState([]);
   
   useEffect(() => {
     const currentDeck = []
@@ -52,13 +52,73 @@ function App() {
   
     shufffleCards();
     setShuffledDeck(currentDeck);
-  }, [])
+  }, []);
 
   console.log(shuffledDeck);
+
+const Scoreboard = ({ score = 0 }) => {
+  console.log('Score:' + score)
+    return (
+      <h2>Score: {score} points
+      </h2>
+    )
+  }
+
+  
+  const [placeInDeck, setPlaceInDeck] = useState(0);
+  
+  const CurrentCard = () => {
+    const revealedCard = shuffledDeck[placeInDeck] || ''
+
+    // console.log(revealedCard);
+    return (
+      <div>
+        This is the current card. 
+        <p style={{ border: 'solid purple 2px', height: '100px', width: '100px', padding: '30px 10px', textAlign: 'center'}}>
+          {revealedCard.value} of {revealedCard.suit}
+        </p>
+        Will the next card be higher or lower?
+        
+      </div>
+    );
+  };
+  
+  const nextCard = () => {
+    setPlaceInDeck(placeInDeck + 1);
+  };
+
+  const HigherButton = () => {
+  
+    
+    console.log(placeInDeck);
+    return (
+      <button onClick={nextCard}>Higher</button>
+    );
+  };
+
+  
+  const LowerButton = () => {
+    return (
+      <button onClick={nextCard}>Lower</button>
+    )
+  }
+  
+  const DoubleButton = () => {
+    return (
+      <button>Double or Nothing</button>
+    )
+  }
+  
+  
   
   return (
     <div>
-      <h1>Hello World</h1>
+      <h1>High-Low Game</h1>
+      <Scoreboard />
+      <CurrentCard />
+      <HigherButton />
+      <LowerButton />
+      <DoubleButton />
 
     </div>
   );
