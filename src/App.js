@@ -101,12 +101,19 @@ const Scoreboard = () => {
       incrementScore();
     } else {
       nextCard();
-    }
-  }
+    };
+  };
 
   const chooseLower = () => {
     setLower(true);
-  }
+
+    if(Number(shuffledDeck[placeInDeck].height) > Number(shuffledDeck[placeInDeck + 1].height)) {
+      nextCard();
+      incrementScore();
+    } else {
+      nextCard();
+    };
+  };
 
   const HigherButton = () => {  
     console.log(placeInDeck);
