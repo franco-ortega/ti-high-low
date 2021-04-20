@@ -39,6 +39,8 @@ function App() {
   const [score, setScore] = useState(0);
   const [gameOver, setGameOver] = useState(false);
   const [doubleOrNothing, setDoubleOrNothing] = useState(false);
+  const [reshuffleDeck, setReshuffleDeck] = useState(false);
+  const [shuffleItAgain, setShuffleItAgain] = useState(false);
 
   
   useEffect(() => {
@@ -57,8 +59,8 @@ function App() {
   
     shufffleCards();
     setShuffledDeck(currentDeck);
-    setScore(0)
-  }, []);
+    setScore(score => score)
+  }, [shuffleItAgain]);
 
 const Scoreboard = () => {
     return (
@@ -106,6 +108,10 @@ const Scoreboard = () => {
 
     nextCard();
 
+    if(score >= 50) {
+      setReshuffleDeck(true); 
+    }
+
     if(placeInDeck + 1 === 51) {
       setGameOver(true);
     }
@@ -129,6 +135,11 @@ const Scoreboard = () => {
     };
 
     nextCard();
+
+    if(score >= 50) {
+      setReshuffleDeck(true); 
+    }
+
 
     if(placeInDeck + 1 === 51) {
       setGameOver(true);
@@ -161,18 +172,38 @@ const Scoreboard = () => {
       <button onClick={chooseDouble}>Double or Nothing</button>
     );
   };
+
+  const reshuffle = () => {
+    setShuffleItAgain(!shuffleItAgain)
+    setScore(score - 50);
+
+  }
+
+   const ReshuffleDeck = () => {
+    return (
+      <button onClick={reshuffle}>
+        Reshuffle Deck for 50 points
+      </button>
+    )
+  }
+  
+  console.log(shuffledDeck);
   
   return (
     <div>
       <h1>High-Low Game</h1>
       <Scoreboard />
       <CurrentCard />
-      <HigherButton />
-      <LowerButton />
+      
       <DoubleButton />
       <h4>
         {doubleOrNothing ? 'You have selected Double or Nothing. Click it again to undo.' : 'Click Double or Nothing to take a chance.'}
       </h4>
+      <HigherButton />
+      <LowerButton />
+      <p>
+        {reshuffleDeck ? <ReshuffleDeck /> : 'If you have at least 50 points, you can spend 50 points to reshuffle the deck'}
+      </p>
       <h3>
         {gameOver ? `Game Over! Final score is ${score}` : 'Keep going!'}
       </h3>
