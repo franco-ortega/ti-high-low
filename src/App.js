@@ -39,6 +39,7 @@ function App() {
   const [score, setScore] = useState(0);
   const [higher, setHigher] = useState(false);
   const [lower, setLower] = useState(false);
+  const [gameOver, setGameOver] = useState(false);
   
   useEffect(() => {
     const currentDeck = []
@@ -59,7 +60,7 @@ function App() {
     setScore(0)
   }, []);
 
-  console.log(shuffledDeck);
+  // console.log(shuffledDeck);
 
 const Scoreboard = () => {
   console.log('Score:' + score)
@@ -86,7 +87,7 @@ const Scoreboard = () => {
   };
   
   const nextCard = () => {
-    setPlaceInDeck(placeInDeck + 1);
+      setPlaceInDeck(placeInDeck + 1);
   };
 
   const incrementScore = () => {
@@ -96,7 +97,9 @@ const Scoreboard = () => {
   const chooseHigher = () => {
     setHigher(true);
 
-    if(Number(shuffledDeck[placeInDeck].height) < Number(shuffledDeck[placeInDeck + 1].height)) {
+    if(placeInDeck + 1 === 52) {
+      setGameOver(true);
+    } else if(Number(shuffledDeck[placeInDeck].height) < Number(shuffledDeck[placeInDeck + 1].height)) {
       nextCard();
       incrementScore();
     } else {
@@ -136,7 +139,7 @@ const Scoreboard = () => {
   }
   
   
-  
+  console.log('Place in deck: ' + placeInDeck)
   return (
     <div>
       <h1>High-Low Game</h1>
@@ -145,6 +148,7 @@ const Scoreboard = () => {
       <HigherButton />
       <LowerButton />
       <DoubleButton />
+      {gameOver ? 'Game Over' : 'Keep going!'}
 
     </div>
   );
