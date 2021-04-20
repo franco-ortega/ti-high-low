@@ -40,6 +40,8 @@ function App() {
   // const [higher, setHigher] = useState(false);
   // const [lower, setLower] = useState(false);
   const [gameOver, setGameOver] = useState(false);
+  const [doubleOrNothing, setDoubleOrNothing] = useState(false);
+
   
   useEffect(() => {
     const currentDeck = []
@@ -60,7 +62,7 @@ function App() {
     setScore(0)
   }, []);
 
-  console.log(shuffledDeck);
+  // console.log(shuffledDeck);
 
 const Scoreboard = () => {
   console.log('Score:' + score)
@@ -95,40 +97,55 @@ const Scoreboard = () => {
   }
 
   const chooseHigher = () => {
-    // setHigher(true);
     if(placeInDeck < 51) {
       if(Number(shuffledDeck[placeInDeck].height) < Number(shuffledDeck[placeInDeck + 1].height)) {
-        nextCard();
-        incrementScore();
+        if(doubleOrNothing) {
+          setScore(score * 2);
+        } else {
+          incrementScore();
+        }
       } else {
-        nextCard();
+        if(doubleOrNothing) {
+          setScore(0);
+        }
       };
     };
+
+    nextCard();
 
     if(placeInDeck + 1 === 51) {
       setGameOver(true);
     }
+
+    setDoubleOrNothing(false);
   };
 
   const chooseLower = () => {
-    // setLower(true);
-
     if(placeInDeck < 51) {
       if(Number(shuffledDeck[placeInDeck].height) > Number(shuffledDeck[placeInDeck + 1].height)) {
-        nextCard();
-        incrementScore();
+        if(doubleOrNothing) {
+          setScore(score * 2);
+        } else {
+          incrementScore();
+        }
       } else {
-        nextCard();
+        if(doubleOrNothing) {
+          setScore(0);
+        }
       };
     };
+
+    nextCard();
 
     if(placeInDeck + 1 === 51) {
       setGameOver(true);
     }
+
+    setDoubleOrNothing(false);
   };
 
   const HigherButton = () => {  
-    console.log(placeInDeck);
+    // console.log(placeInDeck);
     return (
       <button onClick={chooseHigher}>Higher</button>
     );
@@ -138,19 +155,25 @@ const Scoreboard = () => {
   const LowerButton = () => {
     return (
       <button onClick={chooseLower}>Lower</button>
-    )
-  }
+    );
+  };
   
+
+  const chooseDouble = () => {
+    setDoubleOrNothing(!doubleOrNothing)
+
+  };
+
   const DoubleButton = () => {
     return (
-      <button>Double or Nothing</button>
-    )
-  }
+      <button onClick={chooseDouble}>Double or Nothing</button>
+    );
+  };
   
-  
-  console.log('Place in deck: ' + placeInDeck)
+  console.log(doubleOrNothing);
+  // console.log('Place in deck: ' + placeInDeck)
   // console.log(higher, lower)
-  console.log('Game Over: ' + gameOver)
+  // console.log('Game Over: ' + gameOver)
   return (
     <div>
       <h1>High-Low Game</h1>
