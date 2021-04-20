@@ -37,8 +37,8 @@ function App() {
   const [shuffledDeck, setShuffledDeck] = useState([]);
   const [placeInDeck, setPlaceInDeck] = useState(0);
   const [score, setScore] = useState(0);
-  const [higher, setHigher] = useState(false);
-  const [lower, setLower] = useState(false);
+  // const [higher, setHigher] = useState(false);
+  // const [lower, setLower] = useState(false);
   const [gameOver, setGameOver] = useState(false);
   
   useEffect(() => {
@@ -60,7 +60,7 @@ function App() {
     setScore(0)
   }, []);
 
-  // console.log(shuffledDeck);
+  console.log(shuffledDeck);
 
 const Scoreboard = () => {
   console.log('Score:' + score)
@@ -95,27 +95,36 @@ const Scoreboard = () => {
   }
 
   const chooseHigher = () => {
-    setHigher(true);
-
-    if(placeInDeck + 1 === 52) {
-      setGameOver(true);
-    } else if(Number(shuffledDeck[placeInDeck].height) < Number(shuffledDeck[placeInDeck + 1].height)) {
-      nextCard();
-      incrementScore();
-    } else {
-      nextCard();
+    // setHigher(true);
+    if(placeInDeck < 51) {
+      if(Number(shuffledDeck[placeInDeck].height) < Number(shuffledDeck[placeInDeck + 1].height)) {
+        nextCard();
+        incrementScore();
+      } else {
+        nextCard();
+      };
     };
+
+    if(placeInDeck + 1 === 51) {
+      setGameOver(true);
+    }
   };
 
   const chooseLower = () => {
-    setLower(true);
+    // setLower(true);
 
-    if(Number(shuffledDeck[placeInDeck].height) > Number(shuffledDeck[placeInDeck + 1].height)) {
-      nextCard();
-      incrementScore();
-    } else {
-      nextCard();
+    if(placeInDeck < 51) {
+      if(Number(shuffledDeck[placeInDeck].height) > Number(shuffledDeck[placeInDeck + 1].height)) {
+        nextCard();
+        incrementScore();
+      } else {
+        nextCard();
+      };
     };
+
+    if(placeInDeck + 1 === 51) {
+      setGameOver(true);
+    }
   };
 
   const HigherButton = () => {  
@@ -140,6 +149,8 @@ const Scoreboard = () => {
   
   
   console.log('Place in deck: ' + placeInDeck)
+  // console.log(higher, lower)
+  console.log('Game Over: ' + gameOver)
   return (
     <div>
       <h1>High-Low Game</h1>
@@ -148,8 +159,9 @@ const Scoreboard = () => {
       <HigherButton />
       <LowerButton />
       <DoubleButton />
-      {gameOver ? 'Game Over' : 'Keep going!'}
-
+      <h3>
+        {gameOver ? `Game Over! Final score is ${score}` : 'Keep going!'}
+      </h3>
     </div>
   );
 }
