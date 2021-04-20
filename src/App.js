@@ -35,6 +35,11 @@ import cardDeck from './cardDeck.json'
 
 function App() {
   const [shuffledDeck, setShuffledDeck] = useState([]);
+  const [placeInDeck, setPlaceInDeck] = useState(0);
+  const [score, setScore] = useState(0);
+  const [higher, setHigher] = useState(false);
+  const [lower, setLower] = useState(false);
+  const [gameOver, setGameOver] = useState(false);
   
   useEffect(() => {
     const currentDeck = []
@@ -52,20 +57,18 @@ function App() {
   
     shufffleCards();
     setShuffledDeck(currentDeck);
+    setScore(0)
   }, []);
 
-  console.log(shuffledDeck);
+  // console.log(shuffledDeck);
 
-const Scoreboard = ({ score = 0 }) => {
+const Scoreboard = () => {
   console.log('Score:' + score)
     return (
       <h2>Score: {score} points
       </h2>
-    )
-  }
-
-  
-  const [placeInDeck, setPlaceInDeck] = useState(0);
+    );
+  };
   
   const CurrentCard = () => {
     const revealedCard = shuffledDeck[placeInDeck] || ''
@@ -84,22 +87,48 @@ const Scoreboard = ({ score = 0 }) => {
   };
   
   const nextCard = () => {
-    setPlaceInDeck(placeInDeck + 1);
+      setPlaceInDeck(placeInDeck + 1);
   };
 
-  const HigherButton = () => {
-  
-    
+  const incrementScore = () => {
+    setScore(score + 1);
+  }
+
+  const chooseHigher = () => {
+    setHigher(true);
+
+    if(placeInDeck + 1 === 52) {
+      setGameOver(true);
+    } else if(Number(shuffledDeck[placeInDeck].height) < Number(shuffledDeck[placeInDeck + 1].height)) {
+      nextCard();
+      incrementScore();
+    } else {
+      nextCard();
+    };
+  };
+
+  const chooseLower = () => {
+    setLower(true);
+
+    if(Number(shuffledDeck[placeInDeck].height) > Number(shuffledDeck[placeInDeck + 1].height)) {
+      nextCard();
+      incrementScore();
+    } else {
+      nextCard();
+    };
+  };
+
+  const HigherButton = () => {  
     console.log(placeInDeck);
     return (
-      <button onClick={nextCard}>Higher</button>
+      <button onClick={chooseHigher}>Higher</button>
     );
   };
 
   
   const LowerButton = () => {
     return (
-      <button onClick={nextCard}>Lower</button>
+      <button onClick={chooseLower}>Lower</button>
     )
   }
   
@@ -110,7 +139,7 @@ const Scoreboard = ({ score = 0 }) => {
   }
   
   
-  
+  console.log('Place in deck: ' + placeInDeck)
   return (
     <div>
       <h1>High-Low Game</h1>
@@ -119,6 +148,7 @@ const Scoreboard = ({ score = 0 }) => {
       <HigherButton />
       <LowerButton />
       <DoubleButton />
+      {gameOver ? 'Game Over' : 'Keep going!'}
 
     </div>
   );
