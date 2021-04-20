@@ -1,0 +1,262 @@
+[
+    {
+        "value": "A",
+        "suit": "Club",
+        "height": "1"
+    },
+    {
+        "value": "2",
+        "suit": "Club",
+        "height": "2"
+    },
+    {
+        "value": "3",
+        "suit": "Club",
+        "height": "3"
+    },
+    {
+        "value": "4",
+        "suit": "Club",
+        "height": "4"
+    },
+    {
+        "value": "5",
+        "suit": "Club",
+        "height": "6"
+    },
+    {
+        "value": "6",
+        "suit": "Club",
+        "height": "6"
+    },
+    {
+        "value": "7",
+        "suit": "Club",
+        "height": "7"
+    },
+    {
+        "value": "8",
+        "suit": "Club",
+        "height": "8"
+    },
+    {
+        "value": "9",
+        "suit": "Club",
+        "height": "9"
+    },
+    {
+        "value": "10",
+        "suit": "Club",
+        "height": "10"
+    },
+    {
+        "value": "J",
+        "suit": "Club",
+        "height": "11"
+    },
+    {
+        "value": "Q",
+        "suit": "Club",
+        "height": "12"
+    },
+    {
+        "value": "K",
+        "suit": "Club",
+        "height": "13"
+    },
+    {
+        "value": "A",
+        "suit": "Spade",
+        "height": "1"
+    },
+    {
+        "value": "2",
+        "suit": "Spade",
+        "height": "2"
+    },
+    {
+        "value": "3",
+        "suit": "Spade",
+        "height": "3"
+    },
+    {
+        "value": "4",
+        "suit": "Spade",
+        "height": "4"
+    },
+    {
+        "value": "5",
+        "suit": "Spade",
+        "height": "6"
+    },
+    {
+        "value": "6",
+        "suit": "Spade",
+        "height": "6"
+    },
+    {
+        "value": "7",
+        "suit": "Spade",
+        "height": "7"
+    },
+    {
+        "value": "8",
+        "suit": "Spade",
+        "height": "8"
+    },
+    {
+        "value": "9",
+        "suit": "Spade",
+        "height": "9"
+    },
+    {
+        "value": "10",
+        "suit": "Spade",
+        "height": "10"
+    },
+    {
+        "value": "J",
+        "suit": "Spade",
+        "height": "11"
+    },
+    {
+        "value": "Q",
+        "suit": "Spade",
+        "height": "12"
+    },
+    {
+        "value": "K",
+        "suit": "Spade",
+        "height": "13"
+    },
+    {
+        "value": "A",
+        "suit": "Diamond",
+        "height": "1"
+    },
+    {
+        "value": "2",
+        "suit": "Diamond",
+        "height": "2"
+    },
+    {
+        "value": "3",
+        "suit": "Diamond",
+        "height": "3"
+    },
+    {
+        "value": "4",
+        "suit": "Diamond",
+        "height": "4"
+    },
+    {
+        "value": "5",
+        "suit": "Diamond",
+        "height": "6"
+    },
+    {
+        "value": "6",
+        "suit": "Diamond",
+        "height": "6"
+    },
+    {
+        "value": "7",
+        "suit": "Diamond",
+        "height": "7"
+    },
+    {
+        "value": "8",
+        "suit": "Diamond",
+        "height": "8"
+    },
+    {
+        "value": "9",
+        "suit": "Diamond",
+        "height": "9"
+    },
+    {
+        "value": "10",
+        "suit": "Diamond",
+        "height": "10"
+    },
+    {
+        "value": "J",
+        "suit": "Diamond",
+        "height": "11"
+    },
+    {
+        "value": "Q",
+        "suit": "Diamond",
+        "height": "12"
+    },
+    {
+        "value": "K",
+        "suit": "Diamond",
+        "height": "13"
+    },
+    {
+        "value": "A",
+        "suit": "Heart",
+        "height": "1"
+    },
+    {
+        "value": "2",
+        "suit": "Heart",
+        "height": "2"
+    },
+    {
+        "value": "3",
+        "suit": "Heart",
+        "height": "3"
+    },
+    {
+        "value": "4",
+        "suit": "Heart",
+        "height": "4"
+    },
+    {
+        "value": "5",
+        "suit": "Heart",
+        "height": "6"
+    },
+    {
+        "value": "6",
+        "suit": "Heart",
+        "height": "6"
+    },
+    {
+        "value": "7",
+        "suit": "Heart",
+        "height": "7"
+    },
+    {
+        "value": "8",
+        "suit": "Heart",
+        "height": "8"
+    },
+    {
+        "value": "9",
+        "suit": "Heart",
+        "height": "9"
+    },
+    {
+        "value": "10",
+        "suit": "Heart",
+        "height": "10"
+    },
+    {
+        "value": "J",
+        "suit": "Heart",
+        "height": "11"
+    },
+    {
+        "value": "Q",
+        "suit": "Heart",
+        "height": "12"
+    },
+    {
+        "value": "K",
+        "suit": "Heart",
+        "height": "13"
+    }
+]
