@@ -116,7 +116,7 @@ function App() {
     return (
       <>
         <button onClick={chooseDouble}>Double or Nothing</button>
-        <h4>
+        <h4 style={{ color: 'red' }}>
           {doubleOrNothing ? 'You have selected Double or Nothing. Click it again to undo.' : 'Click Double or Nothing to take a chance.'}
         </h4>
       </>
