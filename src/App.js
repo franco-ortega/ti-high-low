@@ -220,18 +220,6 @@ function App() {
       </h3>
     );
   };
-
-  // GAME FORM COMPONENT
-  const GameForm = () => {
-    return (
-      <form onChange={chooseHigherOrLower}>
-        <input type="radio" name="direction" value="HIGH" />Higher
-        <input type="radio" name="direction" value="LOW" />Lower
-        <button onClick={revealCard}>Reveal Card</button>
-      </form>
-    );
-  };
-  
   
   
   console.log(shuffledDeck);
@@ -245,7 +233,11 @@ function App() {
       <Scoreboard />
       <CurrentCard />
       <DoubleButton />
-      <GameForm />
+      <form onChange={chooseHigherOrLower}>
+        <input type="radio" name="direction" value="HIGH" />Higher
+        <input type="radio" name="direction" value="LOW" />Lower
+        <button onClick={revealCard}>Reveal Card</button>
+      </form>
       <ReshuffleDeck />
       <GameStatus />
     </div>
