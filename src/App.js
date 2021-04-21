@@ -43,9 +43,9 @@ function App() {
   const [wasReshuffled, setWasReshuffled] = useState(false);
   const [highOrLow, setHighOrLow] = useState('');
   const [startGame, setStartGame] = useState(false);
-  const[faceUpCard, setFaceUpCard] = useState({});
+  const [lastCardBeforeReshuffle, setLastCardBeforeReshuffle] = useState({});
 
-  const cardStyle = { backgroundColor: 'lightyellow', border: 'solid purple 2px', height: '100px', width: '100px', padding: '30px 10px', textAlign: 'center'}
+  const cardStyle = { backgroundColor: 'lightyellow', border: 'solid purple 2px', height: '100px', width: '100px', padding: '10px 10px', textAlign: 'center'}
 
   useEffect(() => {
     const currentDeck = []
@@ -80,8 +80,8 @@ function App() {
     let revealedCard = shuffledDeck[placeInDeck] || {};
     let previousCard = shuffledDeck[placeInDeck - 1] || false;
 
-    if(faceUpCard.value !== undefined) {
-       revealedCard = faceUpCard;
+    if(lastCardBeforeReshuffle.value !== undefined) {
+       revealedCard = lastCardBeforeReshuffle;
     }
 
     if(placeInDeck > 51) 
@@ -117,7 +117,7 @@ function App() {
   };
   
   const nextCard = () => {
-    if(faceUpCard.value === undefined && startGame) {
+    if(lastCardBeforeReshuffle.value === undefined && startGame) {
       setPlaceInDeck(placeInDeck + 1)
     }
   };
@@ -153,7 +153,7 @@ function App() {
   // the first click of Reveal Card button does not change score when correct --DONE
 
   const reshuffle = () => {
-    setFaceUpCard(shuffledDeck[placeInDeck])
+    setLastCardBeforeReshuffle(shuffledDeck[placeInDeck])
     setShuffleItAgain(true);
     setWasReshuffled(true);
     setScore(score - 50);
@@ -216,11 +216,11 @@ function App() {
 
     if(!startGame) setStartGame(true);
 
-    if(faceUpCard) {
-      setFaceUpCard('')
+    if(lastCardBeforeReshuffle) {
+      setLastCardBeforeReshuffle('')
     }
 
-    const cardInPlay = faceUpCard.height || Number(shuffledDeck[placeInDeck].height);
+    const cardInPlay = lastCardBeforeReshuffle.height || Number(shuffledDeck[placeInDeck].height);
     const cardOnDeck = Number(shuffledDeck[placeInDeck + 1].height); 
 
     if(highOrLow === 'HIGH') {
