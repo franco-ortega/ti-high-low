@@ -291,10 +291,10 @@ function App() {
       <form onChange={chooseHigherOrLower}>
       Will the next card be higher or lower?
         <label>Higher
-          <input type="radio" name="direction" value="HIGH" />
+          <input type="radio" name="direction" value="HIGH" disabled={!startGame}/>
         </label>
         <label>Lower
-          <input type="radio" name="direction" value="LOW" />
+          <input type="radio" name="direction" value="LOW" disabled={!startGame}/>
           </label>
         <button onClick={revealCard} disabled={gameOver}>Reveal Card</button>
       </form>
