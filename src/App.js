@@ -45,11 +45,7 @@ function App() {
   const [startGame, setStartGame] = useState(false);
   const[faceUpCard, setFaceUpCard] = useState({});
 
-  const cardStyle = {
-    backgroundColor: 'lightyellow', border: 'solid purple 2px', height: '100px', width: '100px', padding: '10px 10px', textAlign: 'center'
-  }
-
-  
+  const cardStyle = { backgroundColor: 'lightyellow', border: 'solid purple 2px', height: '100px', width: '100px', padding: '30px 10px', textAlign: 'center'}
 
   useEffect(() => {
     const currentDeck = []
@@ -78,7 +74,6 @@ function App() {
       </h2>
     );
   };
-
 
   // CURRENT CARD COMPONENT
   const CurrentCard = () => {
@@ -130,7 +125,6 @@ function App() {
   const incrementScore = () => {
     setScore(score + 1);
   };
-
 
   const chooseDouble = () => {
     setDoubleOrNothing(!doubleOrNothing)
@@ -201,7 +195,6 @@ function App() {
 
 
   const chooseHigherOrLower = (e) => {
-    console.log(e.target.value)
     setHighOrLow(e.target.value)
   };
 
@@ -232,31 +225,15 @@ function App() {
 
     if(highOrLow === 'HIGH') {
       if(placeInDeck < 51) {
-        if(cardInPlay < cardOnDeck) {
-          console.log('correct high')
-          correctGuess();
-        }
-        else {
-          console.log('wrong high')
-          console.log('card in play: ' + cardInPlay)
-          console.log('card on deck: ' + cardOnDeck)
-          incorrectGuess();
-        }
+        if(cardInPlay < cardOnDeck) correctGuess();
+        else incorrectGuess();
       };
     };
     
     if(highOrLow === 'LOW') {
       if(placeInDeck < 51) {
-        if(cardInPlay > cardOnDeck) {
-          console.log('correct low')
-          correctGuess();
-        }
-        else {
-          console.log('wrong low')
-          console.log('card in play: ' + cardInPlay)
-          console.log('card on deck: ' + cardOnDeck)
-          incorrectGuess();
-        }
+        if(cardInPlay > cardOnDeck) correctGuess();
+        else incorrectGuess();
       };
     };
 
@@ -266,7 +243,6 @@ function App() {
     if(placeInDeck + 1 === 51) {
       setGameOver(true);
     };
-
   };
   
 
@@ -278,10 +254,9 @@ function App() {
       </h3>
     );
   };
-  
-  
+
   console.log(shuffledDeck);
-  
+
   return (
     <div>
       <h1>High-Low Game</h1>
@@ -294,7 +269,7 @@ function App() {
           <input type="radio" name="direction" value="HIGH" disabled={!startGame}/>
         </label>
         <label>Lower
-          <input type="radio" name="direction" value="LOW" disabled={!startGame}/>
+          <input type="radio" name="direction" value="LOW" disabled={!startGame} />
           </label>
         <button onClick={revealCard} disabled={gameOver}>Reveal Card</button>
       </form>
