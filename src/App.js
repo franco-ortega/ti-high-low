@@ -46,6 +46,8 @@ function App() {
 
   const[faceUpCard, setFaceUpCard] = useState({});
 
+  
+
   useEffect(() => {
     const currentDeck = []
 
@@ -77,8 +79,8 @@ function App() {
 
   // CURRENT CARD COMPONENT
   const CurrentCard = () => {
-    let revealedCard = shuffledDeck[placeInDeck] || {value: 'start', suit: 'the game'};
-    console.log(revealedCard.value)
+    let revealedCard = shuffledDeck[placeInDeck] || {};
+    // console.log(revealedCard.value)
 
     if(faceUpCard.value !== undefined) {
        revealedCard = faceUpCard;
@@ -141,7 +143,7 @@ function App() {
   // FIX RESHUFFLE
   // reset placeInDeck back to 0 when deck is reshuffled --DONE
   // don't allow reshuffle if score drops below 50 points --DONE
-  // have Reshuffle button appear as soon as score reaches 50 points or more
+  // have Reshuffle button appear as soon as score reaches 50 points or more --DONE
   // don't change the current card until after the Higher/Lower button is clicked --DONE
 
   const reshuffle = () => {
@@ -155,14 +157,23 @@ function App() {
 
   // RESHUFFLE DECK COMPONENT
   const ReshuffleDeck = () => {
-    if(canReshuffle && !wasReshuffled)
+    let test = false;
+
+    if(score >= 50) {
+      setCanReshuffle(true);
+      test = true;
+      console.log('Test in reveal button: ' + test);
+    };
+
+
+    if(test && !wasReshuffled)
      return (
       <button onClick={reshuffle}>
         Reshuffle Deck for 50 points
       </button>
     );
 
-    if(canReshuffle && wasReshuffled)
+    if(test && wasReshuffled)
     return (
       <div>You have used your reshuffle for this game.</div>
     )
@@ -223,7 +234,7 @@ function App() {
     setDoubleOrNothing(false);
 
     if(score >= 50) {
-      setCanReshuffle(true); 
+      setCanReshuffle(true);
     };
 
     if(placeInDeck + 1 === 51) {
@@ -244,10 +255,11 @@ function App() {
   
   
   console.log(shuffledDeck);
-  // console.log(canReshuffle);
+  console.log('Can Reshuffle:' + canReshuffle);
   // console.log(cardInView);
   // console.log(highOrLow);
-  console.log('Face Up Card' + faceUpCard.value)
+  // console.log('Face Up Card' + faceUpCard.value)
+  // console.log('Test @ bottom: ' + test);
   
   return (
     <div>
