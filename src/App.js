@@ -39,10 +39,14 @@ function App() {
   const [score, setScore] = useState(0);
   const [gameOver, setGameOver] = useState(false);
   const [doubleOrNothing, setDoubleOrNothing] = useState(false);
-  const [reshuffleDeck, setReshuffleDeck] = useState(false);
   const [shuffleItAgain, setShuffleItAgain] = useState(false);
+  const [wasReshuffled, setWasReshuffled] = useState(false);
+  const [highOrLow, setHighOrLow] = useState('');
+  const [startGame, setStartGame] = useState(false);
+  const [lastCardBeforeReshuffle, setLastCardBeforeReshuffle] = useState({});
 
-  
+  const cardStyle = { backgroundColor: 'lightyellow', border: 'solid purple 2px', height: '100px', width: '100px', padding: '10px 10px', textAlign: 'center'}
+
   useEffect(() => {
     const currentDeck = []
 
@@ -62,151 +66,215 @@ function App() {
     setScore(score => score)
   }, [shuffleItAgain]);
 
-const Scoreboard = () => {
+
+  // SCOREBOARD COMPONENT
+  const Scoreboard = () => {
     return (
       <h2>Score: {score} points
       </h2>
     );
   };
-  
+
+  // CURRENT CARD COMPONENT
   const CurrentCard = () => {
-    const revealedCard = shuffledDeck[placeInDeck] || ''
+    let revealedCard = shuffledDeck[placeInDeck] || {};
+    let previousCard = shuffledDeck[placeInDeck - 1] || false;
+
+    if(lastCardBeforeReshuffle.value !== undefined) {
+       revealedCard = lastCardBeforeReshuffle;
+    }
+
+    if(placeInDeck > 51) 
     return (
-      <div>
-        This is the current card. 
-        <p style={{ border: 'solid purple 2px', height: '100px', width: '100px', padding: '30px 10px', textAlign: 'center'}}>
-          {revealedCard.value} of {revealedCard.suit}
+      <div>You have revealed all the cards.
+      <p style={cardStyle}></p>
+        Play again anytime.
+        </div>
+      );
+
+    return (
+      <div style={{ display: 'flex' }}>
+        <div>
+        <p>Card Deck</p>
+        <p style={cardStyle}>
+          Cards Remaining: {startGame ? 51 - placeInDeck : '52'}
         </p>
-        Will the next card be higher or lower?
-        
+        </div>
+        <div>
+        <p>Current card:</p>
+        <p style={cardStyle}>
+          {startGame ? `${revealedCard.value} of ${revealedCard.suit}s` : ''}
+        </p>
+        </div>
+        <div>
+        <p>Previous card:</p>
+        <p style={cardStyle}>
+          {previousCard ? `${previousCard.value} of ${previousCard.suit}s` : ''}
+        </p>
+        </div>
       </div>
     );
   };
   
   const nextCard = () => {
-      setPlaceInDeck(placeInDeck + 1);
+    if(lastCardBeforeReshuffle.value === undefined && startGame) {
+      setPlaceInDeck(placeInDeck + 1)
+    }
   };
 
   const incrementScore = () => {
     setScore(score + 1);
-  }
-
-  const chooseHigher = () => {
-    if(placeInDeck < 51) {
-      if(Number(shuffledDeck[placeInDeck].height) < Number(shuffledDeck[placeInDeck + 1].height)) {
-        if(doubleOrNothing) {
-          setScore(score * 2);
-        } else {
-          incrementScore();
-        }
-      } else {
-        if(doubleOrNothing) {
-          setScore(0);
-        }
-      };
-    };
-
-    nextCard();
-
-    if(score >= 50) {
-      setReshuffleDeck(true); 
-    }
-
-    if(placeInDeck + 1 === 51) {
-      setGameOver(true);
-    }
-
-    setDoubleOrNothing(false);
   };
-
-  const chooseLower = () => {
-    if(placeInDeck < 51) {
-      if(Number(shuffledDeck[placeInDeck].height) > Number(shuffledDeck[placeInDeck + 1].height)) {
-        if(doubleOrNothing) {
-          setScore(score * 2);
-        } else {
-          incrementScore();
-        }
-      } else {
-        if(doubleOrNothing) {
-          setScore(0);
-        }
-      };
-    };
-
-    nextCard();
-
-    if(score >= 50) {
-      setReshuffleDeck(true); 
-    }
-
-
-    if(placeInDeck + 1 === 51) {
-      setGameOver(true);
-    }
-
-    setDoubleOrNothing(false);
-  };
-
-  const HigherButton = () => {  
-    return (
-      <button onClick={chooseHigher}>Higher</button>
-    );
-  };
-
-  
-  const LowerButton = () => {
-    return (
-      <button onClick={chooseLower}>Lower</button>
-    );
-  };
-  
 
   const chooseDouble = () => {
     setDoubleOrNothing(!doubleOrNothing)
-
   };
 
+  // DOUBLE BUTTON COMPONENT
   const DoubleButton = () => {
     return (
-      <button onClick={chooseDouble}>Double or Nothing</button>
+      <>
+        <button onClick={chooseDouble}>Double or Nothing</button>
+        <h4 style={{ color: 'red' }}>
+          {doubleOrNothing ? 'You have selected Double or Nothing. Click it again to undo.' : 'Click Double or Nothing to take a chance.'}
+        </h4>
+      </>
     );
   };
 
+  // FIX RESHUFFLE
+  // reset placeInDeck back to 0 when deck is reshuffled --DONE
+  // don't allow reshuffle if score drops below 50 points --DONE
+  // have Reshuffle button appear as soon as score reaches 50 points or more --DONE
+  // don't change the current card until after the Higher/Lower button is clicked --DONE
+  //
+  // NEW RESHUFFLE ISSUES
+  // Cards Remaining resets to 51 instead of 52
+  // the first click of Reveal Card button does not change score when correct --DONE
+
   const reshuffle = () => {
-    setShuffleItAgain(!shuffleItAgain)
+    setLastCardBeforeReshuffle(shuffledDeck[placeInDeck])
+    setShuffleItAgain(true);
+    setWasReshuffled(true);
     setScore(score - 50);
+    setPlaceInDeck(0);
+  };
 
-  }
+  // RESHUFFLE DECK COMPONENT
+  const ReshuffleDeck = () => {
+    let canReshuffle = false;
+    let noMoreShuffles = false;
 
-   const ReshuffleDeck = () => {
-    return (
+    if(score >= 50) {
+      canReshuffle = true;
+    };
+
+    if(wasReshuffled) {
+      noMoreShuffles = true;
+    }
+
+    if(canReshuffle && !noMoreShuffles)
+     return (
       <button onClick={reshuffle}>
         Reshuffle Deck for 50 points
       </button>
-    )
-  }
+    );
+
+    if(noMoreShuffles)
+    return (
+      <div>You have used your reshuffle for this game.</div>
+    );
+
+    return (
+      <div>
+        If you have at least 50 points, you can spend 50 points to reshuffle the deck once per game.
+      </div>
+    );
+  };
+
+
+
+  const chooseHigherOrLower = (e) => {
+    setHighOrLow(e.target.value)
+  };
+
+  const correctGuess = () => {
+    if(doubleOrNothing) setScore(score * 2);
+    else incrementScore();
+  };
+
+  const incorrectGuess = () => {
+    if(doubleOrNothing) setScore(0);
+  };
+
+
+
+
+  // REVEAL CARD EVENT HANDLER
+  const revealCard = (e) => {
+    e.preventDefault()
+
+    if(!startGame) setStartGame(true);
+
+    if(lastCardBeforeReshuffle) {
+      setLastCardBeforeReshuffle('')
+    }
+
+    const cardInPlay = lastCardBeforeReshuffle.height || Number(shuffledDeck[placeInDeck].height);
+    const cardOnDeck = Number(shuffledDeck[placeInDeck + 1].height); 
+
+    if(highOrLow === 'HIGH') {
+      if(placeInDeck < 51) {
+        if(cardInPlay < cardOnDeck) correctGuess();
+        else incorrectGuess();
+      };
+    };
+    
+    if(highOrLow === 'LOW') {
+      if(placeInDeck < 51) {
+        if(cardInPlay > cardOnDeck) correctGuess();
+        else incorrectGuess();
+      };
+    };
+
+    nextCard();
+    setDoubleOrNothing(false);
+
+    if(placeInDeck + 1 === 51) {
+      setGameOver(true);
+    };
+  };
   
+
+  // GAME STATUS COMPONENT
+   const GameStatus = () => {
+    return (
+      <h3>
+        {gameOver ? `Game Over! Final score is ${score}` : 'Keep going!'}
+      </h3>
+    );
+  };
+
   console.log(shuffledDeck);
-  
+
   return (
     <div>
       <h1>High-Low Game</h1>
       <Scoreboard />
       <CurrentCard />
-      
       <DoubleButton />
-      <h4>
-        {doubleOrNothing ? 'You have selected Double or Nothing. Click it again to undo.' : 'Click Double or Nothing to take a chance.'}
-      </h4>
-      <HigherButton />
-      <LowerButton />
-      <p>
-        {reshuffleDeck ? <ReshuffleDeck /> : 'If you have at least 50 points, you can spend 50 points to reshuffle the deck'}
-      </p>
-      <h3>
-        {gameOver ? `Game Over! Final score is ${score}` : 'Keep going!'}
-      </h3>
+      <form onChange={chooseHigherOrLower}>
+      Will the next card be higher or lower?
+        <label>Higher
+          <input type="radio" name="direction" value="HIGH" disabled={!startGame}/>
+        </label>
+        <label>Lower
+          <input type="radio" name="direction" value="LOW" disabled={!startGame} />
+          </label>
+        <button onClick={revealCard} disabled={gameOver}>Reveal Card</button>
+      </form>
+      <ReshuffleDeck />
+      <GameStatus />
     </div>
   );
 }
