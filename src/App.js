@@ -39,7 +39,6 @@ function App() {
   const [score, setScore] = useState(0);
   const [gameOver, setGameOver] = useState(false);
   const [doubleOrNothing, setDoubleOrNothing] = useState(false);
-  const [canReshuffle, setCanReshuffle] = useState(false);
   const [shuffleItAgain, setShuffleItAgain] = useState(false);
   const [wasReshuffled, setWasReshuffled] = useState(false);
   const [highOrLow, setHighOrLow] = useState('');
@@ -80,18 +79,10 @@ function App() {
   // CURRENT CARD COMPONENT
   const CurrentCard = () => {
     let revealedCard = shuffledDeck[placeInDeck] || {};
-    // console.log(revealedCard.value)
 
     if(faceUpCard.value !== undefined) {
        revealedCard = faceUpCard;
-    } 
-    // if(!faceUpCard) {
-    //   revealedCard = shuffledDeck[placeInDeck] || '';
-    // }
-
-    // revealedCard = shuffledDeck[placeInDeck] || '';
-    // const revealedCard = shuffledDeck[placeInDeck] || '';
-    // const revealedCard = faceUpCard || '';
+    }
 
     if(placeInDeck > 51) 
     return (
@@ -161,10 +152,8 @@ function App() {
     let noMoreShuffles = false;
 
     if(score >= 50) {
-      // setCanReshuffle(true);
       canReshuffle = true;
       console.log('canReshuffle in reveal button: ' + canReshuffle);
-      // console.log('Can Resfhuffle in reveal button' + canReshuffle);
     };
 
     if(wasReshuffled) {
@@ -181,14 +170,13 @@ function App() {
     if(noMoreShuffles)
     return (
       <div>You have used your reshuffle for this game.</div>
-    )
+    );
 
     return (
       <div>
         If you have at least 50 points, you can spend 50 points to reshuffle the deck once per game.
       </div>
     );
-
   };
 
 
@@ -238,10 +226,6 @@ function App() {
     nextCard();
     setDoubleOrNothing(false);
 
-    if(score >= 50) {
-      setCanReshuffle(true);
-    };
-
     if(placeInDeck + 1 === 51) {
       setGameOver(true);
     };
@@ -260,7 +244,6 @@ function App() {
   
   
   console.log(shuffledDeck);
-  console.log('Can Reshuffle @ bottom:' + canReshuffle);
   // console.log(cardInView);
   // console.log(highOrLow);
   // console.log('Face Up Card' + faceUpCard.value)
