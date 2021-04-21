@@ -41,6 +41,7 @@ function App() {
   const [doubleOrNothing, setDoubleOrNothing] = useState(false);
   const [reshuffleDeck, setReshuffleDeck] = useState(false);
   const [shuffleItAgain, setShuffleItAgain] = useState(false);
+  const [wasReshuffled, setWasReshuffled] = useState(false);
 
   // const [cardInView, setCardInView] = useState({});
   const [highOrLow, setHighOrLow] = useState('');
@@ -129,23 +130,29 @@ function App() {
   // don't change the current card until after the Higher/Lower button is clicked
 
   const reshuffle = () => {
-    setShuffleItAgain(!shuffleItAgain)
+    setShuffleItAgain(true);
+    setWasReshuffled(true);
     setScore(score - 50);
     setPlaceInDeck(0);
   };
 
   // RESHUFFLE DECK COMPONENT
   const ReshuffleDeck = () => {
-    if(reshuffleDeck)
+    if(reshuffleDeck && !wasReshuffled)
      return (
       <button onClick={reshuffle}>
         Reshuffle Deck for 50 points
       </button>
     );
 
+    if(reshuffleDeck && wasReshuffled)
+    return (
+      <div>You have used your reshuffle for this game.</div>
+    )
+
     return (
       <div>
-        If you have at least 50 points, you can spend 50 points to reshuffle the deck.
+        If you have at least 50 points, you can spend 50 points to reshuffle the deck once per game.
       </div>
     );
 
@@ -234,8 +241,12 @@ function App() {
       <CurrentCard />
       <DoubleButton />
       <form onChange={chooseHigherOrLower}>
-        <input type="radio" name="direction" value="HIGH" />Higher
-        <input type="radio" name="direction" value="LOW" />Lower
+        <label>Higher
+          <input type="radio" name="direction" value="HIGH" />
+        </label>
+        <label>Lower
+          <input type="radio" name="direction" value="LOW" />
+          </label>
         <button onClick={revealCard}>Reveal Card</button>
       </form>
       <ReshuffleDeck />
