@@ -172,39 +172,33 @@ function App() {
   };
 
   const correctGuess = () => {
-    if(doubleOrNothing) {
-      setScore(score * 2);
-    } else {
-      incrementScore();
-    };
+    if(doubleOrNothing) setScore(score * 2);
+    else incrementScore();
+  };
+
+  const incorrectGuess = () => {
+    if(doubleOrNothing) setScore(0);
   };
 
   const revealCard = (e) => {
     e.preventDefault()
     console.log('reveal button clicked')
 
+    const cardInPlay = Number(shuffledDeck[placeInDeck].height);
+    const cardOnDeck = Number(shuffledDeck[placeInDeck + 1].height); 
+
     if(highOrLow === 'HIGH') {
       if(placeInDeck < 51) {
-        if(Number(shuffledDeck[placeInDeck].height) < Number(shuffledDeck[placeInDeck + 1].height)) {
-          correctGuess();
-        } else {
-          if(doubleOrNothing) {
-            setScore(0);
-          };
-        };
+        if(cardInPlay < cardOnDeck) correctGuess();
+        else incorrectGuess();
       };
     };
     
     if(highOrLow === 'LOW') {
       if(placeInDeck < 51) {
-        if(Number(shuffledDeck[placeInDeck].height) > Number(shuffledDeck[placeInDeck + 1].height)) {
-          correctGuess();
-        } else {
-          if(doubleOrNothing) {
-            setScore(0);
-          };
-        };
-      };  
+        if(cardInPlay > cardOnDeck) correctGuess();
+        else incorrectGuess();
+      };
     };
 
     nextCard();
