@@ -39,7 +39,7 @@ function App() {
   const [score, setScore] = useState(0);
   const [gameOver, setGameOver] = useState(false);
   const [doubleOrNothing, setDoubleOrNothing] = useState(false);
-  const [reshuffleDeck, setReshuffleDeck] = useState(false);
+  const [canReshuffle, setCanReshuffle] = useState(false);
   const [shuffleItAgain, setShuffleItAgain] = useState(false);
   const [wasReshuffled, setWasReshuffled] = useState(false);
 
@@ -138,14 +138,14 @@ function App() {
 
   // RESHUFFLE DECK COMPONENT
   const ReshuffleDeck = () => {
-    if(reshuffleDeck && !wasReshuffled)
+    if(canReshuffle && !wasReshuffled)
      return (
       <button onClick={reshuffle}>
         Reshuffle Deck for 50 points
       </button>
     );
 
-    if(reshuffleDeck && wasReshuffled)
+    if(canReshuffle && wasReshuffled)
     return (
       <div>You have used your reshuffle for this game.</div>
     )
@@ -205,11 +205,11 @@ function App() {
     setDoubleOrNothing(false);
 
     if(score >= 50) {
-      setReshuffleDeck(true); 
+      setCanReshuffle(true); 
     };
 
     if(score < 50) {
-      setReshuffleDeck(false);
+      setCanReshuffle(false);
     };
 
     if(placeInDeck + 1 === 51) {
@@ -230,7 +230,7 @@ function App() {
   
   
   console.log(shuffledDeck);
-  console.log(reshuffleDeck);
+  console.log(canReshuffle);
   // console.log(cardInView);
   console.log(highOrLow);
   
