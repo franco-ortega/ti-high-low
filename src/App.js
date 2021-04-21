@@ -42,12 +42,11 @@ function App() {
   const [canReshuffle, setCanReshuffle] = useState(false);
   const [shuffleItAgain, setShuffleItAgain] = useState(false);
   const [wasReshuffled, setWasReshuffled] = useState(false);
-
-  // const [cardInView, setCardInView] = useState({});
   const [highOrLow, setHighOrLow] = useState('');
 
-  
-  useEffect((score) => {
+  const[faceUpCard, setFaceUpCard] = useState({});
+
+  useEffect(() => {
     const currentDeck = []
 
     const shufffleCards = () => {
@@ -60,16 +59,11 @@ function App() {
         };
       };
     };
-
-    if(score >= 50) {
-      setCanReshuffle(true); 
-    };
-
   
     shufffleCards();
     setShuffledDeck(currentDeck);
     setScore(score => score)
-  }, [shuffleItAgain, canReshuffle]);
+  }, [shuffleItAgain]);
 
 
   // SCOREBOARD COMPONENT
@@ -79,10 +73,23 @@ function App() {
       </h2>
     );
   };
-  
+
+
   // CURRENT CARD COMPONENT
   const CurrentCard = () => {
-    const revealedCard = shuffledDeck[placeInDeck] || '';
+    let revealedCard = shuffledDeck[placeInDeck] || {value: 'start', suit: 'the game'};
+    console.log(revealedCard.value)
+
+    if(faceUpCard.value !== undefined) {
+       revealedCard = faceUpCard;
+    } 
+    // if(!faceUpCard) {
+    //   revealedCard = shuffledDeck[placeInDeck] || '';
+    // }
+
+    // revealedCard = shuffledDeck[placeInDeck] || '';
+    // const revealedCard = shuffledDeck[placeInDeck] || '';
+    // const revealedCard = faceUpCard || '';
 
     if(placeInDeck > 51) 
     return (
@@ -105,7 +112,9 @@ function App() {
   };
   
   const nextCard = () => {
-      setPlaceInDeck(placeInDeck + 1);
+    if(faceUpCard.value === undefined) {
+      setPlaceInDeck(placeInDeck + 1)
+    }
   };
 
   const incrementScore = () => {
@@ -136,6 +145,8 @@ function App() {
   // don't change the current card until after the Higher/Lower button is clicked
 
   const reshuffle = () => {
+    setFaceUpCard(shuffledDeck[placeInDeck])
+    console.log(faceUpCard);
     setShuffleItAgain(true);
     setWasReshuffled(true);
     setScore(score - 50);
@@ -180,9 +191,16 @@ function App() {
     if(doubleOrNothing) setScore(0);
   };
 
+
+
+
+  // REVEAL CARD EVENT HANDLER
   const revealCard = (e) => {
     e.preventDefault()
-    console.log('reveal button clicked')
+
+    if(faceUpCard) {
+      setFaceUpCard('')
+    }
 
     const cardInPlay = Number(shuffledDeck[placeInDeck].height);
     const cardOnDeck = Number(shuffledDeck[placeInDeck + 1].height); 
@@ -230,9 +248,10 @@ function App() {
   
   
   console.log(shuffledDeck);
-  console.log(canReshuffle);
+  // console.log(canReshuffle);
   // console.log(cardInView);
-  console.log(highOrLow);
+  // console.log(highOrLow);
+  console.log('Face Up Card' + faceUpCard.value)
   
   return (
     <div>
