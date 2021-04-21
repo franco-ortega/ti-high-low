@@ -47,7 +47,7 @@ function App() {
   const [highOrLow, setHighOrLow] = useState('');
 
   
-  useEffect(() => {
+  useEffect((score) => {
     const currentDeck = []
 
     const shufffleCards = () => {
@@ -60,11 +60,16 @@ function App() {
         };
       };
     };
+
+    if(score >= 50) {
+      setCanReshuffle(true); 
+    };
+
   
     shufffleCards();
     setShuffledDeck(currentDeck);
     setScore(score => score)
-  }, [shuffleItAgain]);
+  }, [shuffleItAgain, canReshuffle]);
 
 
   // SCOREBOARD COMPONENT
@@ -94,6 +99,7 @@ function App() {
           {revealedCard.value} of {revealedCard.suit}
         </p>
         Will the next card be higher or lower?
+        <h4>Cards Remaining: {51 - placeInDeck}</h4>
       </div>
     );
   };
