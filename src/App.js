@@ -157,23 +157,28 @@ function App() {
 
   // RESHUFFLE DECK COMPONENT
   const ReshuffleDeck = () => {
-    let test = false;
+    let canReshuffle = false;
+    let noMoreShuffles = false;
 
     if(score >= 50) {
-      setCanReshuffle(true);
-      test = true;
-      console.log('Test in reveal button: ' + test);
+      // setCanReshuffle(true);
+      canReshuffle = true;
+      console.log('canReshuffle in reveal button: ' + canReshuffle);
+      // console.log('Can Resfhuffle in reveal button' + canReshuffle);
     };
 
+    if(wasReshuffled) {
+      noMoreShuffles = true;
+    }
 
-    if(test && !wasReshuffled)
+    if(canReshuffle && !noMoreShuffles)
      return (
       <button onClick={reshuffle}>
         Reshuffle Deck for 50 points
       </button>
     );
 
-    if(test && wasReshuffled)
+    if(noMoreShuffles)
     return (
       <div>You have used your reshuffle for this game.</div>
     )
@@ -255,7 +260,7 @@ function App() {
   
   
   console.log(shuffledDeck);
-  console.log('Can Reshuffle:' + canReshuffle);
+  console.log('Can Reshuffle @ bottom:' + canReshuffle);
   // console.log(cardInView);
   // console.log(highOrLow);
   // console.log('Face Up Card' + faceUpCard.value)
