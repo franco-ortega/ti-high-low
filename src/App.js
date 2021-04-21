@@ -142,7 +142,7 @@ function App() {
   // reset placeInDeck back to 0 when deck is reshuffled --DONE
   // don't allow reshuffle if score drops below 50 points --DONE
   // have Reshuffle button appear as soon as score reaches 50 points or more
-  // don't change the current card until after the Higher/Lower button is clicked
+  // don't change the current card until after the Higher/Lower button is clicked --DONE
 
   const reshuffle = () => {
     setFaceUpCard(shuffledDeck[placeInDeck])
@@ -224,10 +224,6 @@ function App() {
 
     if(score >= 50) {
       setCanReshuffle(true); 
-    };
-
-    if(score < 50) {
-      setCanReshuffle(false);
     };
 
     if(placeInDeck + 1 === 51) {
