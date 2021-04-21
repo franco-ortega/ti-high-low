@@ -43,10 +43,11 @@ function App() {
   const [wasReshuffled, setWasReshuffled] = useState(false);
   const [highOrLow, setHighOrLow] = useState('');
   const [startGame, setStartGame] = useState(false);
-
-
-
   const[faceUpCard, setFaceUpCard] = useState({});
+
+  const cardStyle = {
+    backgroundColor: 'lightyellow', border: 'solid purple 2px', height: '100px', width: '100px', padding: '10px 10px', textAlign: 'center'
+  }
 
   
 
@@ -91,7 +92,7 @@ function App() {
     if(placeInDeck > 51) 
     return (
       <div>You have revealed all the cards.
-      <p style={{ backgroundColor: 'lightyellow', border: 'solid purple 2px', height: '100px', width: '100px', padding: '30px 10px', textAlign: 'center'}}></p>
+      <p style={cardStyle}></p>
         Play again anytime.
         </div>
       );
@@ -100,19 +101,19 @@ function App() {
       <div style={{ display: 'flex' }}>
         <div>
         <p>Card Deck</p>
-        <p style={{ backgroundColor: 'lightyellow', border: 'solid purple 2px', height: '100px', width: '100px', padding: '10px 10px', textAlign: 'center'}}>
+        <p style={cardStyle}>
           Cards Remaining: {startGame ? 51 - placeInDeck : '52'}
         </p>
         </div>
         <div>
         <p>Current card:</p>
-        <p style={{ backgroundColor: 'lightyellow', border: 'solid purple 2px', height: '100px', width: '100px', padding: '30px 10px', textAlign: 'center'}}>
+        <p style={cardStyle}>
           {startGame ? `${revealedCard.value} of ${revealedCard.suit}s` : ''}
         </p>
         </div>
         <div>
         <p>Previous card:</p>
-        <p style={{ backgroundColor: 'lightyellow', border: 'solid purple 2px', height: '100px', width: '100px', padding: '30px 10px', textAlign: 'center'}}>
+        <p style={cardStyle}>
           {previousCard ? `${previousCard.value} of ${previousCard.suit}s` : ''}
         </p>
         </div>
@@ -159,7 +160,6 @@ function App() {
 
   const reshuffle = () => {
     setFaceUpCard(shuffledDeck[placeInDeck])
-    console.log(faceUpCard);
     setShuffleItAgain(true);
     setWasReshuffled(true);
     setScore(score - 50);
@@ -173,7 +173,6 @@ function App() {
 
     if(score >= 50) {
       canReshuffle = true;
-      console.log('canReshuffle in reveal button: ' + canReshuffle);
     };
 
     if(wasReshuffled) {
@@ -282,10 +281,6 @@ function App() {
   
   
   console.log(shuffledDeck);
-  // console.log(cardInView);
-  // console.log(highOrLow);
-  // console.log('Face Up Card' + faceUpCard.value)
-  // console.log('Test @ bottom: ' + test);
   
   return (
     <div>
@@ -301,7 +296,7 @@ function App() {
         <label>Lower
           <input type="radio" name="direction" value="LOW" />
           </label>
-        <button onClick={revealCard}>Reveal Card</button>
+        <button onClick={revealCard} disabled={gameOver}>Reveal Card</button>
       </form>
       <ReshuffleDeck />
       <GameStatus />
