@@ -42,6 +42,9 @@ function App() {
   const [shuffleItAgain, setShuffleItAgain] = useState(false);
   const [wasReshuffled, setWasReshuffled] = useState(false);
   const [highOrLow, setHighOrLow] = useState('');
+  const [startGame, setStartGame] = useState(false);
+
+
 
   const[faceUpCard, setFaceUpCard] = useState({});
 
@@ -79,6 +82,7 @@ function App() {
   // CURRENT CARD COMPONENT
   const CurrentCard = () => {
     let revealedCard = shuffledDeck[placeInDeck] || {};
+    let previousCard = shuffledDeck[placeInDeck - 1] || false;
 
     if(faceUpCard.value !== undefined) {
        revealedCard = faceUpCard;
@@ -93,19 +97,31 @@ function App() {
       );
 
     return (
-      <div>
-        This is the current card. 
-        <p style={{ backgroundColor: 'lightyellow', border: 'solid purple 2px', height: '100px', width: '100px', padding: '30px 10px', textAlign: 'center'}}>
-          {revealedCard.value} of {revealedCard.suit}
+      <div style={{ display: 'flex' }}>
+        <div>
+        <p>Card Deck</p>
+        <p style={{ backgroundColor: 'lightyellow', border: 'solid purple 2px', height: '100px', width: '100px', padding: '10px 10px', textAlign: 'center'}}>
+          Cards Remaining: {startGame ? 51 - placeInDeck : '52'}
         </p>
-        Will the next card be higher or lower?
-        <h4>Cards Remaining: {51 - placeInDeck}</h4>
+        </div>
+        <div>
+        <p>Current card:</p>
+        <p style={{ backgroundColor: 'lightyellow', border: 'solid purple 2px', height: '100px', width: '100px', padding: '30px 10px', textAlign: 'center'}}>
+          {startGame ? `${revealedCard.value} of ${revealedCard.suit}s` : ''}
+        </p>
+        </div>
+        <div>
+        <p>Previous card:</p>
+        <p style={{ backgroundColor: 'lightyellow', border: 'solid purple 2px', height: '100px', width: '100px', padding: '30px 10px', textAlign: 'center'}}>
+          {previousCard ? `${previousCard.value} of ${previousCard.suit}s` : ''}
+        </p>
+        </div>
       </div>
     );
   };
   
   const nextCard = () => {
-    if(faceUpCard.value === undefined) {
+    if(faceUpCard.value === undefined && startGame) {
       setPlaceInDeck(placeInDeck + 1)
     }
   };
@@ -136,6 +152,10 @@ function App() {
   // don't allow reshuffle if score drops below 50 points --DONE
   // have Reshuffle button appear as soon as score reaches 50 points or more --DONE
   // don't change the current card until after the Higher/Lower button is clicked --DONE
+  //
+  // NEW RESHUFFLE ISSUES
+  // Cards Remaining resets to 51 instead of 52
+  // the first click of Reveal Card button does not change score when correct --DONE
 
   const reshuffle = () => {
     setFaceUpCard(shuffledDeck[placeInDeck])
@@ -202,24 +222,42 @@ function App() {
   const revealCard = (e) => {
     e.preventDefault()
 
+    if(!startGame) setStartGame(true);
+
     if(faceUpCard) {
       setFaceUpCard('')
     }
 
-    const cardInPlay = Number(shuffledDeck[placeInDeck].height);
+    const cardInPlay = faceUpCard.height || Number(shuffledDeck[placeInDeck].height);
     const cardOnDeck = Number(shuffledDeck[placeInDeck + 1].height); 
 
     if(highOrLow === 'HIGH') {
       if(placeInDeck < 51) {
-        if(cardInPlay < cardOnDeck) correctGuess();
-        else incorrectGuess();
+        if(cardInPlay < cardOnDeck) {
+          console.log('correct high')
+          correctGuess();
+        }
+        else {
+          console.log('wrong high')
+          console.log('card in play: ' + cardInPlay)
+          console.log('card on deck: ' + cardOnDeck)
+          incorrectGuess();
+        }
       };
     };
     
     if(highOrLow === 'LOW') {
       if(placeInDeck < 51) {
-        if(cardInPlay > cardOnDeck) correctGuess();
-        else incorrectGuess();
+        if(cardInPlay > cardOnDeck) {
+          console.log('correct low')
+          correctGuess();
+        }
+        else {
+          console.log('wrong low')
+          console.log('card in play: ' + cardInPlay)
+          console.log('card on deck: ' + cardOnDeck)
+          incorrectGuess();
+        }
       };
     };
 
@@ -256,6 +294,7 @@ function App() {
       <CurrentCard />
       <DoubleButton />
       <form onChange={chooseHigherOrLower}>
+      Will the next card be higher or lower?
         <label>Higher
           <input type="radio" name="direction" value="HIGH" />
         </label>
